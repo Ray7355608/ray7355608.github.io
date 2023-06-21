@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>再做轮播图</title>
+		<link rel="stylesheet" href="css/reset.css">
+		<style>
+			#outer{
+				width: 620px;
+				height: 600px;
+				padding: 10px 0;
+				background-color: #bfa;
+				margin: 50px auto;
+				overflow: hidden;
+				position: relative;
+			}
+			#imglist {
+				list-style: none;
+				position: absolute;
+			}
+			#imglist li {
+				margin: 0 10px;
+				float: left;
+			}
+			#clickbox {
+				height: 10px;
+				position: absolute;
+				bottom: 5%;
+				left: 5%;
+			}
+			#clickbox a {
+				display: block;
+				width: 12px;
+				height: 12px;
+				background-color: red;
+				float: left;
+				margin-right: 8px;
+				border-radius: 50%;
+			}
+			#clickbox a:hover {
+				background-color: darkgray;
+			}	
+			#clickbox a.on {
+				background-color: black;
+			}
+		</style>
+		<script src="js/Tool.js"></script>
+		<script>
+			window.onload = function(){
+			var index = 0;
+			var timer;
+			var outer = document.getElementById("outer");
+			var imgs = document.querySelectorAll('#imglist img');
+			var as = document.querySelectorAll('#clickbox a');
+			var clickbox = document.querySelector('#clickbox');
+			var imglist = document.querySelector('#imglist');
+			imglist.style.width = 620 * imgs.length + 'px';
+			clickbox.style.width = 20 * as.length + 'px';
+				for (let i in as) {
+					as[i].onclick = function() {
+						as[index].classList.remove('on');
+						let a = i;
+						index = a;
+						as[index].classList.add('on');
+						move(imglist , "left" , -620*index , 30 ,function(){});
+					}
+				}
+				//开启自动切换
+				autoChange();
+				//自动切换
+				function autoChange(){
+					//开启定时器
+					timer = setInterval(function(){
+						if(index < as.length){//防越界处理
+						as[index].classList.remove('on');
+						}
+						index++;
+						index %= imgs.length;//图片翻页控制
+						move(imglist , "left" , -620*index , 30 ,function(){
+							if(index >= as.length){
+								index = 0 ;
+							imglist.style.left = -620*index + "px";
+							}
+						});
+							if(index < as.length){
+								as[index].classList.add('on');
+							}else{
+								as[0].classList.add('on');
+							}
+					},3000);
+					outer.onmousemove = function(){
+						clearInterval(timer);
+					}
+					outer.onmouseout = function(){
+						clearInterval(timer);
+						timer = setInterval(function(){
+							if(index < as.length){//防越界处理
+							as[index].classList.remove('on');
+							}
+							index++;
+							index %= imgs.length;//图片翻页控制
+							move(imglist , "left" , -620*index , 30 ,function(){
+								if(index >= as.length){
+									index = 0 ;
+								imglist.style.left = -620*index + "px";
+								}
+							});
+								if(index < as.length){
+									as[index].classList.add('on');
+								}else{
+									as[0].classList.add('on');
+								}
+						},3000);
+					}
+				}
+				
+			}
+		</script>
+	</head>
+	<body>
+		<div id="outer">
+			<ul id="imglist"">
+				<li><img src="img/图片1.jpg"></li>
+				<li><img src="img/图片2.jpg"></li>
+				<li><img src="img/图片3.jpg"></li>
+				<li><img src="img/图片4.jpg"></li>
+				<li><img src="img/图片5.jpg"></li>
+				<li><img src="img/图片6.jpg"></li>
+				<li><img src="img/图片1.jpg"></li>
+			</ul>
+			<div id="clickbox">
+				<a href="javascript:;" class="on"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+			</div>
+		</div>
+	</body>
+</html>

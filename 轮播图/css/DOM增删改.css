@@ -1,0 +1,26 @@
+			#outer{
+				display: flex;
+				width: 750px;
+				margin: 10px auto;
+			}
+			#total{
+				width: 500px;
+				border: 1px solid black;
+			}
+			.inner p{
+				margin-left: 20px;
+			}
+			#city li{
+				float: left;
+				width: 50px;
+				height: 30px;
+				background-color: #bfa;
+				text-align: center;
+				line-height: 30px;
+				margin: 10px;
+				border: black 1px solid;
+			}
+			#btnList button{
+				width: 250px;
+				margin: 10px;
+			}
